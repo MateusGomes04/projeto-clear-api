@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show update destroy ]
+  before_action :set_book, only: %i[ show update ]
+  before_action :set_books_ids_to_destroy, only: %i[ destroy ]
 
   # GET /books
   def index
@@ -35,13 +36,18 @@ class BooksController < ApplicationController
 
   # DELETE /books/1
   def destroy
-    @book.destroy
+    @books.destroy_all
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params[:id])
+    end
+
+    def set_books_ids_to_destroy
+      ids = params[:id].split(',')
+      @books = Book.where(id: ids)
     end
 
     # Only allow a list of trusted parameters through.
