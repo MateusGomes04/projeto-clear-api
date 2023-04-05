@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user
   before_action :set_book, only: %i[ show update ]
   before_action :set_books_ids_to_destroy, only: %i[ destroy ]
 
